@@ -1,6 +1,7 @@
 from django.db import models
-from transport_app.models import Ride
+from transport_app.models import Ride, Account
 from django.contrib.auth.models import User
+
 
 # Create your models here.
 class Profile(models.Model):
@@ -13,3 +14,16 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class RiderProfile(models.Model):
+    user = models.OneToOneField(Account, on_delete=models.CASCADE, primary_key=True)
+
+    def __str__(self):
+        return f'{self.user.owner.username} Profile'
+
+class DriverProfile(models.Model):
+    user = models.OneToOneField(Account, on_delete=models.CASCADE, primary_key=True)
+
+    def __str__(self):
+        return f'{self.user.owner.username} Profile'
