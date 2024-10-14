@@ -10,13 +10,19 @@ class Role(models.Model):
     def __str__(self):
         return self.name
 
+def get_default_role():
+    try:
+        return Role.objects.get(name="Rider")
+    except Role.DoesNotExist:
+        return None
+
 
 class Account(models.Model):
     owner = models.OneToOneField(User, on_delete=models.CASCADE)
-    role = models.ForeignKey(Role, on_delete=models.CASCADE)
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, default=get_default_role)
 
     def __str__(self):
-        return self.owner.username
+        return f'{self.owner.username} {self.role.name}'
 
 class Ride(models.Model):
     rider = models.ForeignKey(User, on_delete=models.CASCADE)
